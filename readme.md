@@ -3,5 +3,8 @@
 ## How to use
 
     cd ~
-    git clone https://github.com/lovepocky/dotfiles.git . 
+    
+    # get all files
+    git clone https://github.com/lovepocky/dotfiles.git 
+    ln -svf dotfiles/.[!.]* $HOME && rm .git .gitignore
     
