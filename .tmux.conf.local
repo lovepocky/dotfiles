@@ -282,6 +282,10 @@ tmux_conf_copy_to_os_clipboard=true
 bind-key -n "M-Left" previous-window	# alt-left   | Previous Window
 bind-key -n "M-Right" next-window 		# alt-right  | Next Window
 
+# vim cursor-shape
+set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
+# TODO
+# - [ ] bug: under tilde display as underline
 
 # increase history size
 #set -g history-limit 10000
