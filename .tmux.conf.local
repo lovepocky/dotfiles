@@ -284,8 +284,15 @@ bind-key -n "M-Right" next-window 		# alt-right  | Next Window
 
 # vim cursor-shape
 set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
+
 # TODO
 # - [ ] bug: under tilde display as underline
+
+# true color
+# https://github.com/tmux/tmux/issues/1246
+set -g default-terminal "tmux-256color"
+set -ga terminal-overrides ",*256col*:Tc"
+
 
 # increase history size
 #set -g history-limit 10000
