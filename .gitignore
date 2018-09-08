@@ -1,5 +1,7 @@
 *
 !/.gitignore
+!/readme.md
+
 # system-wide common settings
 !/.inputrc
 
