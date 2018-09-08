@@ -1,0 +1,126 @@
+" lovepcky's idea vim config
+
+" [IdeaVim actionlist - Github-Gist](https://gist.github.com/zchee/9c78f91cc5ad771c1f5d)
+" NOTE: :actionlist will show all idea actions
+"
+" plugins
+" - vim
+"   - ideavim
+"     - ideavim extension
+"   - AceJump
+" - display
+"   - rainbow brackets
+" - language
+"   - scala
+
+"   - scalafmt
+" https://stackoverflow.com/a/27928635/5570244
+set keep-english-in-normal-and-restore-in-insert
+
+" group 0
+" set clipboard+=unnamed
+" set clipboard=unnamed
+set clipboard=
+
+" group 1
+" d not cut
+" nnoremap d "_d
+" vnoremap d "_d
+" nnoremap D "_D
+" vnoremap D "_D
+
+" group 2
+" nnoremap x "_x
+
+vnoremap x "*x
+
+nnoremap p "*p
+vnoremap p "*p
+nnoremap P "*P
+vnoremap P "*P
+
+nnoremap y "*y
+vnoremap y "*y
+nnoremap Y "*Y
+vnoremap Y "*Y
+
+" nnoremap <leader>p "*p
+" vnoremap <leader>p "*p
+
+" nnoremap <leader>P "*P
+" vnoremap <leader>P "*p
+
+set surround
+
+" move
+nnoremap H ^
+nnoremap L $
+vnoremap H ^
+vnoremap L $
+
+" https://www.jianshu.com/p/ec6b4b4536aa
+set hls
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set showmode
+" set number
+" set relativenumber
+set scrolloff=3
+set history=100000
+
+
+" https://github.com/Valloric/dotfiles/blob/master/intellij/ideavimrc
+set ignorecase
+set smartcase
+set scrolloff=3         " 3 lines above/below cursor when scrolling
+
+let mapleader = " "
+
+" Press `f` to activate AceJump
+noremap <leader>jj :action AceAction<CR>
+" Press `F` to activate Target Mode
+" map F :action AceTargetAction<CR>
+" Press `g` to activate Line Mode
+noremap <leader>jl :action AceLineAction<CR>
+
+
+noremap <leader>w- :action VimWindowSplitHorizontal<CR>
+noremap <leader>w| :action SplitHorizontally<CR>
+
+" map <leader>w| :action VimWindowSplitVertical<CR>
+" https://stackoverflow.com/a/46615815/5570244 Jump to editor shortcut in Intellij IDEA
+" ctrl + tab: open recent file, always last file opened
+" ctrl + p: last line in mac default keymap
+noremap <leader>wd :action VimWindowClose<CR>
+
+noremap <leader>wh :action VimWindowLeft<CR>
+noremap <leader>wj :action VimWindowDown<CR>
+noremap <leader>wk :action VimWindowUp<CR>
+noremap <leader>wl :action VimWindowRight<CR>
+" VimWindowNext
+" VimWindowOnly
+" VimWindowPrev
+
+" not working in visual mode, so bind to IDE keys
+" nnoremap <A-j> :action MoveLineDown<CR>
+" nnoremap <A-k> :action MoveLineUp<CR>
+" vnoremap <A-j> :action MoveLineDown<CR>
+" vnoremap <A-k> :action MoveLineUp<CR>
+
+nnoremap <leader>bb :action RecentFiles<CR>
+vnoremap <leader>bb :action RecentFiles<CR>
+ 
+
+noremap <leader>f? :action SearchEverywhere<CR>
+
+
+" https://github.com/junegunn/dotfiles/blob/master/ideavimrc
+nnoremap <leader>rr :action Run<cr>
+
+nnoremap <leader><leader> :action GotoAction<CR>
+" nnoremap <Space>gc :action GotoClass<CR>
+
+" nnoremap <Space>fp :action ShowFilePath<CR>
+" nnoremap <Space>pm :action ShowPopupMenu<CR>

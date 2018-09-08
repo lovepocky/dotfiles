@@ -1,0 +1,522 @@
+" My Notes
+" - `K` in some word -> open help of this word
+"
+"
+"
+"
+"
+"
+"
+" My TODO s
+" - edit vimr's shortcut [How to configure vimr? #556](https://github.com/qvacua/vimr/issues/556)
+" - [x] switch input method / source when switch vim app (like auto switch input source in intellij)
+"   - FocusGained hook
+" - [x] use tab to COMPLETE popup
+" - [x] cross session file undo history
+" - [ ] fuzzy popup match
+" - [ ] buffer operations (like delete) in buffers switch (same as in intellij)
+" - [ ] app (vimr?) exit confirm
+" - [ ] vim session / workspaces
+"
+" - python
+"   - [ ] <language server> cannot jump buildin functions like map/print/...
+"
+"
+"
+"
+" Let Vim and NeoVim shares the same plugin directory.
+" Comment it out if you don't like
+let g:spacevim_plug_home = '~/.vim/plugged'
+
+" The default leader key is space key.
+" Uncomment the line below and modify "<\Space>" if you prefer another
+" let g:spacevim_leader = "<\Space>"
+
+" The default local leader key is comma.
+" Uncomment the line below and modify ',' if you prefer another
+" let g:spacevim_localleader = ','
+
+" Enable the existing layers in space-vim
+let g:spacevim_layers = [
+      \ 'fzf', 'unite', 'better-defaults',
+      \ 'which-key',
+      \ 'airline',
+      \ ]
+
+" https://github.com/liuchengxu/space-vim/blob/master/layers/LAYERS.md
+let g:spacevim_layers = g:spacevim_layers + ['editing', 'programming', 'file-manager']
+
+" let g:spacevim_layers = g:spacevim_layers + ['syntax-checking']
+
+" let g:spacevim_layers = g:spacevim_layers + ['auto-completion']
+
+" let g:spacevim_layers = g:spacevim_layers + ['python']
+
+let g:spacevim_layers = g:spacevim_layers + ['markdown']
+
+let g:spacevim_layers = g:spacevim_layers + ['git']
+
+let g:spacevim_layers = g:spacevim_layers + ['emoji']
+
+let g:spacevim_layers = g:spacevim_layers + ['better-motion']
+let g:sneak#label = 1
+
+
+map z/ <Plug>(incsearch-easymotion-/)
+map z? <Plug>(incsearch-easymotion-?)
+map zg/ <Plug>(incsearch-easymotion-stay)
+
+" let g:spacevim_layers = g:spacevim_layers + ['javascript']
+
+
+
+" If you want to have more control over the layer, try using Layer command.
+"if g:spacevim.gui
+  "Layer 'airline'
+"endif
+
+
+" Manage your own plugins, refer to vim-plug's instruction for more detials.
+function! UserInit()
+
+  " TODO map conflic error
+  let g:mucomplete#no_mappings = 0
+
+  " TODO disable sneak
+
+  Plug 'haya14busa/incsearch.vim'
+
+  " Add plugin via Plug command.
+  Plug 'junegunn/seoul256.vim'
+
+  Plug 'matze/vim-move'
+
+  Plug 'junegunn/vim-emoji', { 'on': 'VimEnter' }
+
+  " Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+  " enable commenter default
+  Plug 'scrooloose/nerdcommenter'
+
+  " ## switch input method in normal mode
+  Plug 'CodeFalling/fcitx-vim-osx'
+
+  " ## autoreread files
+  Plug 'djoshea/vim-autoread'
+
+  Plug 'lovepocky/md-img-paste.vim', { 'on': 'MarkdownPasteImage' }
+
+  Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
+
+  " Plug 'vim-syntastic/syntastic'
+
+  " https://github.com/teto/nvim-palette
+  " pip install pandas
+  " Plug 'junegunn/fzf' " if not installed already 
+  " Plug 'teto/nvim-palette', { 'do': ':UpdateRemotePlugins'}
+
+  " https://stackoverflow.com/questions/33033646/how-to-show-constantly-current-working-directory-in-vim
+  " How to show constantly current working directory in vim
+  " set statusline+=%!getcwd()
+  " set statusline+=%#warningmsg#
+  " set statusline+=%{SyntasticStatuslineFlag()}
+  " set statusline+=%*
+
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_auto_loc_list = 1
+  let g:syntastic_check_on_open = 1
+  let g:syntastic_check_on_wq = 0
+
+  " https://github.com/Valloric/YouCompleteMe/issues/1751
+  "Plug 'Valloric/YouCompleteMe'
+  " cd ~/.vim/plugged/YouCompleteMe
+  " ./install.py --all
+  "
+
+  " [ https://github.com/terryma/vim-multiple-cursors/issues/263 ](seems to freeze when going to insert mode #263)
+  " disable multiple-cursors
+  Plug 'terryma/vim-multiple-cursors', { 'on': [] }
+
+  Plug 'lifepillar/vim-mucomplete', { 'on': [] }
+
+  Plug 'autozimu/LanguageClient-neovim', {
+      \ 'branch': 'next',
+      \ 'do': 'bash install.sh',
+      \ }
+
+  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+  " ----------- AUTO COMPLETE
+  " use ncm2 with language-server
+  "
+  " python: pip install 'python-language-server[all]'
+  " javascript: npm i javascript-typescript-langserver
+  " will enable auto-format when write buffer because of autopep8 / yapf
+	let g:LanguageClient_serverCommands = {
+			\ 'python': ['pyls'],
+      \ 'javascript': ['javascript-typescript-stdio'],
+      \ 'javascript.jsx': ['javascript-typescript-stdio'],
+			\ }
+			"\ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+      " \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+      "
+  nnoremap <Leader>ll :call LanguageClient_contextMenu()<CR>
+
+  nnoremap <localleader>h :call LanguageClient#textDocument_hover()<CR>
+
+  " https://github.com/autozimu/LanguageClient-neovim/issues/35#issuecomment-324095421
+  set signcolumn=yes
+
+  " nunmap <buffer> <TAB>
+
+  " https://github.com/sourcegraph/javascript-typescript-langserver/issues/432 Completion is one character behind in neovim #432
+  " [Warning] readFile <full_project_path>/node_modules/react/package.json requested by TypeScript but content not available
+
+  " ncm2
+  Plug 'ncm2/ncm2'
+  Plug 'roxma/nvim-yarp'
+
+  " enable ncm2 for all buffers
+  autocmd BufEnter * call ncm2#enable_for_buffer()
+
+  " IMPORTANTE: :help Ncm2PopupOpen for more information
+  set completeopt=noinsert,menuone,noselect
+
+  " NOTE: you need to install completion sources to get completions. Check
+  " our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+  Plug 'ncm2/ncm2-bufword'
+  Plug 'ncm2/ncm2-tmux'
+  Plug 'ncm2/ncm2-path'
+
+  " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+  " found' messages
+  set shortmess+=c
+
+  " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+  inoremap <c-c> <ESC>
+
+  " http://vim.wikia.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE
+  inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+  inoremap <expr> <TAB> ( pumvisible() ? "\<C-y>" : "\<C-g>u\<TAB>" )
+
+  " https://www.electricmonk.nl/log/2012/07/26/persistent-undo-history-in-vim/
+  set undofile   " Maintain undo history between sessions
+  " set undodir=~/.vim/undodir
+
+endfunction
+
+" Override the default settings as well as adding extras
+function! UserConfig()
+  " If you have installed the powerline fonts and want to enable airline layer
+  " let g:airline_powerline_fonts=1
+
+  " au VimEnter * :NERDTreeToggle
+  " au VimEnter * :NERDTree
+  " autocmd VimEnter * NERDTree
+  " autocmd BufReadPre,FileReadPre *.py,*.js :ALEEnable
+  " autocmd BufReadPost,FileReadPost *.py,*.js :ALEEnable
+  "
+
+  set whichwrap-=h,l
+  inoremap <C-j> <C-n>
+  inoremap <C-k> <C-p>
+
+  let g:ale_sign_column_always = 1
+  let g:ale_sign_error = '×'
+  let g:ale_sign_warning = '?'
+  let g:ale_completion_enabled = 0
+
+  let g:ale_fixers = {
+  \   'javascript': ['eslint'],
+  \   'python': ['python -m pyls'],
+  \}
+
+  let g:ale_linters = {
+  \   'python': ['pyls'],
+  \}
+
+  let b:ale_linters = {
+  \   'python': ['pyls'],
+  \}
+
+  let g:ale_python_pyls_executable = 'pipenv run pyls'
+
+  " Set this. Airline will handle the rest.
+  " let g:airline#extensions#ale#enabled = 1
+
+  let g:ale_set_highlights = 1
+
+  highlight ALEError guibg=none gui=undercurl  ctermbg=none cterm=undercurl
+  highlight ALEWarning guibg=none gui=undercurl ctermbg=none cterm=undercurl
+
+  " highlight ALEError guibg=none gui=underline  ctermbg=none cterm=underline
+  " highlight ALEWarning guibg=none gui=underline ctermbg=none cterm=underline
+
+  function! s:ensure_input_en()
+    let currentmode = mode()
+    echom "currentmode mode() = " + currentmode
+
+    if currentmode == 'i'
+      " do something for insert mode
+    else
+      " do something for normal mode (default)
+      call Fcitx2en()
+    endif
+  endfunction
+
+  autocmd FocusGained * call s:ensure_input_en()
+
+
+  let g:jsx_ext_required = 1
+
+  " Use gui colors in terminal if available
+  function! s:enable_termgui()
+    if has('termguicolors')
+      set termguicolors
+      if g:spacevim.tmux
+        " If use vim inside tmux, see https://github.com/vim/vim/issues/993
+        " set Vim-specific sequences for RGB colors
+        let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+        let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+      endif
+    endif
+  endfunction
+
+  " If your terminal(-emulator) supports true colors, uncomment the line below
+  call s:enable_termgui()
+
+" -------------------------------------------------------------------------------------------------
+" # set ui
+
+  " set guifont=Monaco:h20
+
+  " ### set transparent background color
+  " set terminal background to 0x292b2e
+  func! s:transparent_background()
+
+    if has("gui_vimr")
+    " Here goes some VimR specific settings like
+      set termguicolors
+    elseif has("gui_macvim")
+    elseif exists("g:gui_oni")
+    " https://github.com/onivim/oni/wiki/How-To:-Minimal-Oni-Configuration
+      " set noshowmode
+      " set noruler
+      " set laststatus=0
+      " set noshowcmd
+    elseif exists('g:nyaovim_version')
+    else
+      set termguicolors
+      highlight Normal guibg=NONE ctermbg=NONE
+      highlight NonText guibg=NONE ctermbg=NONE
+      hi SignColumn ctermbg=NONE guibg=NONE
+    endif
+
+  endf
+  "autocmd ColorScheme * call s:transparent_background()
+  call s:transparent_background()
+
+
+  " Allow saving of files as sudo when I forgot to start vim using sudo.
+  cmap w!! w !sudo tee > /dev/null %
+
+  set backupcopy=yes
+  set backup
+  " set noswapfile
+  " set nowritebackup
+
+  " TODO
+  " javascript rainbow not work
+
+
+  " ---------------------------------------------------------------------------------------------------- 
+  " shortcut
+  " NOTE: :verbose map {key}
+  " to show functions
+
+  " ## system clipboard settings
+  " - https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
+  "
+  " use system clipboard
+  " set clipboard+=unnamed
+  " set clipboard=
+
+  " d not cut
+  " nnoremap d "_d
+  " vnoremap d "_d
+  " nnoremap D "_D
+  " vnoremap D "_D
+  " nnoremap x "_x
+
+  vnoremap x "*x
+
+  nnoremap p "*p
+  vnoremap p "*p
+  nnoremap P "*P
+  vnoremap P "*P
+
+  nnoremap y "*y
+  vnoremap y "*y
+  nnoremap Y "*Y
+  vnoremap Y "*Y
+
+  vmap <A-j> <Plug>MoveBlockDown
+  vmap <A-k> <Plug>MoveBlockUp
+  nmap <A-j> <Plug>MoveLineDown
+  nmap <A-k> <Plug>MoveLineUp
+
+  " some mac shortcut
+  "
+  " https://github.com/qvacua/vimr/issues/537#issuecomment-372280429
+  " Save file with CMD+s.
+  nnoremap <d-s> :w<CR>
+  inoremap <d-s> <C-o>:w<CR>
+  " Close current buffer/file with Cmd + w.
+  " nnoremap <d-w> :tabclose<CR>
+  " inoremap <d-w> <C-o>:tabclose<CR>
+  nnoremap <d-w> :Kwbd<CR>
+  inoremap <d-w> <C-o>:Kwbd<CR>
+
+  " Map CMD+z and CMD+Shift+z to undo/redo.
+  nnoremap <C-z> u
+  inoremap <C-z> <C-o>u
+  nnoremap <C-S-z> <C-r>
+  inoremap <C-S-z> <C-o><C-r>
+  " Map CMD+p to CtrlP.
+  nnoremap <d-p> :CtrlP<CR>
+  inoremap <d-p> <C-o>:CtrlP<CR>
+  " cmd+ [ / ] to jump backward / forward
+  " http://vim.wikia.com/wiki/Jumping_to_previously_visited_locations
+  nnoremap <d-[> <C-o>
+  inoremap <d-[> <C-o><C-o><CR>
+  nnoremap <d-]> <C-i>
+  inoremap <d-]> <C-o><C-i><CR>
+  " cmd + b to jump symbol definition
+  nnoremap <silent> <d-b> :call LanguageClient#textDocument_definition()<CR>
+  inoremap <silent> <d-b> <C-o>:call LanguageClient#textDocument_definition()<CR>
+
+  nnoremap <d-1> :NERDTreeToggle<CR>
+  inoremap <d-1> <C-o>:NERDTreeToggle<CR>
+  " nnoremap <d-2> :NERDTreeToggle<CR>
+  " inoremap <d-2> <C-o>:NERDTreeToggle<CR>
+  " nnoremap <d-2> :NERDTreeFocus<CR>
+  " inoremap <d-2> <C-o>:NERDTreeFocus<CR>
+  nnoremap <silent> <d-2> :call Pocki_FocusFileTree()<CR>
+  inoremap <silent> <d-2> <C-o>:call Pocki_FocusFileTree()<CR>
+
+  function! Pocki_FocusFileTree()
+    try
+      :NERDTreeFocus
+    catch
+      :NERDTreeToggle
+    endtry
+  endfunction
+
+  nnoremap <d-t> :tabnew<CR>
+  inoremap <d-t> <C-o>:tabnew<CR>
+
+  nnoremap <d-d> :t.<CR>
+  inoremap <d-d> <C-o>:t.<CR>
+
+  nnoremap <d-e> :Buffers<CR>
+  inoremap <d-e> <C-o>:Buffers<CR>
+
+  nnoremap <d-S-o> :Files<CR>
+  inoremap <d-S-o> <C-o>:Files<CR>
+
+  " https://github.com/llloret/osmid/blob/master/Session.vim
+  nnoremap <silent> <d-/> :call NERDComment("n", "Invert")<CR>
+  vnoremap <silent> <d-/> :call NERDComment("v", "Invert")<CR>
+  " nnoremap <d-/> :echom 'd-/'
+
+  autocmd BufWritePost ~/.spacevim :source $MYVIMRC
+
+  nnoremap H ^
+  nnoremap L $
+  vnoremap H ^
+  vnoremap L $
+
+
+  """""" https://github.com/ferrine/md-img-paste.vim
+  """""" https://github.com/lovepocky/md-img-paste.vim
+  " autocmd FileType markdown nmap <silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
+  let g:mdip_imgdir = '.assets'
+  command! MarkdownPasteImage call mdip#MarkdownClipboardImage()
+
+  " TODO configure Neoformat
+  autocmd BufWritePost *.md silent :Neoformat
+  autocmd BufWritePost *.js,*.jsx silent :Neoformat jsbeautify
+
+
+	" http://vim.wikia.com/wiki/Deleting_a_buffer_without_closing_the_window
+	" delete the buffer; keep windows; create a scratch buffer if no buffers left
+	function! s:Kwbd(kwbdStage)
+		if exists("t:NERDTreeBufName")
+			if bufwinnr(t:NERDTreeBufName) == winnr()
+				return
+			endif
+		endif
+		if(a:kwbdStage == 1)
+			if(!buflisted(winbufnr(0)))
+				bd!
+				return
+			endif
+			let s:kwbdBufNum = bufnr("%")
+			let s:kwbdWinNum = winnr()
+			windo call s:Kwbd(2)
+			execute s:kwbdWinNum . 'wincmd w'
+			let s:buflistedLeft = 0
+			let s:bufFinalJump = 0
+			let l:nBufs = bufnr("$")
+			let l:i = 1
+			while(l:i <= l:nBufs)
+				if(l:i != s:kwbdBufNum)
+					if(buflisted(l:i))
+						let s:buflistedLeft = s:buflistedLeft + 1
+					else
+						if(bufexists(l:i) && !strlen(bufname(l:i)) && !s:bufFinalJump)
+							let s:bufFinalJump = l:i
+						endif
+					endif
+				endif
+				let l:i = l:i + 1
+			endwhile
+			if(!s:buflistedLeft)
+				if(s:bufFinalJump)
+					windo if(buflisted(winbufnr(0))) | execute "b! " . s:bufFinalJump | endif
+			else
+				enew
+				let l:newBuf = bufnr("%")
+				" windo if(buflisted(winbufnr(0))) | execute "b! " . l:newBuf | endif
+				windo if(buflisted(winbufnr(0))) | :Startify | endif
+		endif
+		execute s:kwbdWinNum . 'wincmd w'
+	endif
+	if(buflisted(s:kwbdBufNum) || s:kwbdBufNum == bufnr("%"))
+		execute "bd! " . s:kwbdBufNum
+	endif
+	if(!s:buflistedLeft)
+		set buflisted
+		set bufhidden=delete
+		set buftype=nofile
+		setlocal noswapfile
+	endif
+		else
+			if(bufnr("%") == s:kwbdBufNum)
+				let prevbufvar = bufnr("#")
+				if(prevbufvar > 0 && buflisted(prevbufvar) && prevbufvar != s:kwbdBufNum)
+					b #
+				else
+					bn
+				endif
+			endif
+		endif
+	endfunction
+
+	command! Kwbd call <SID>Kwbd(1)
+	" nnoremap <silent> <Plug>Kwbd :<C-u>Kwbd<CR>
+  nnoremap <Leader>bd :Kwbd<CR>
+
+" Create a mapping (e.g. in your .vimrc) like this:
+" nmap <C-W>! <Plug>Kwbd
+
+endfunction
