@@ -1,0 +1,43 @@
+*
+!/.gitignore
+# system-wide common settings
+!/.inputrc
+
+# shell
+#!/.bashrc
+#!/.zshrc
+
+# terminal-emulator
+#!/.config/alacritty
+
+# term-multiplexer
+# from https://github.com/gpakosz/.tmux
+!/.tmux.conf.local
+
+# git
+
+# keymap
+#!/.config/karabiner
+
+# vim
+!/.spacevim
+!/.ideavimrc
+
+# node.js
+!/.npmrc
+!/.prettierrc
+
+# python
+!.pip
+!.pip/pip.conf
+
+# scala
+#!/.sbt/1.0/
+
+# java
+!/.gradle
+/.gradle/*
+!/.gradle/init.gradle
+!/.m2
+/.m2/*
+!/.m2/settings.xml
