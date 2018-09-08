@@ -1,5 +1,6 @@
 " My Notes
 " - `K` in some word -> open help of this word
+" - :verbose autocmd BufEnter
 "
 "
 "
@@ -176,7 +177,16 @@ function! UserInit()
   Plug 'roxma/nvim-yarp'
 
   " enable ncm2 for all buffers
+  " except NERDTree
+  " TODO issue
+  let g:ncm2_ftToIgnore = ['nerdtree']
   autocmd BufEnter * call ncm2#enable_for_buffer()
+  " autocmd BufEnter NERD_tree_* call ncm2#enable_for_buffer()
+  " autocmd BufEnter nerdtree call ncm2#enable_for_buffer()
+  " autocmd BufEnter *\(NERD_tree_*) call ncm2#enable_for_buffer()
+  " autocmd BufEnter * if index(g:ncm2_ftToIgnore, &ft) < 0 | call ncm2#enable_for_buffer()
+  " autocmd BufEnter * if &ft != "nerdtree" | call ncm2#enable_for_buffer() | endif
+  " autocmd BufEnter * if &ft == "vim" | call ncm2#enable_for_buffer() | endif
 
   " IMPORTANTE: :help Ncm2PopupOpen for more information
   set completeopt=noinsert,menuone,noselect
@@ -403,6 +413,26 @@ function! UserConfig()
   nnoremap <silent> <d-2> :call Pocki_FocusFileTree()<CR>
   inoremap <silent> <d-2> <C-o>:call Pocki_FocusFileTree()<CR>
 
+  au VimEnter * :call Pocki_FocusFileTree()
+
+  " https://stackoverflow.com/questions/2066590/automatically-quit-vim-if-nerdtree-is-last-and-only-buffer
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+  " function! s:CloseIfOnlyControlWinLeft()
+    " if winnr("$") != 1
+      " return
+    " endif
+    " if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
+          " \ || &buftype == 'quickfix'
+        " q
+    " endif
+  " endfunction
+  " augroup CloseIfOnlyControlWinLeft
+    " au!
+    " au BufEnter * call s:CloseIfOnlyControlWinLeft()
+  " augroup END
+
+
   function! Pocki_FocusFileTree()
     try
       :NERDTreeFocus
@@ -435,6 +465,17 @@ function! UserConfig()
   vnoremap H ^
   vnoremap L $
 
+  " https://vi.stackexchange.com/questions/4919/exit-from-terminal-mode-in-neovim
+  tnoremap <Esc> <C-\><C-n>
+
+  " https://vi.stackexchange.com/questions/13331/close-all-windows-except-the-current-one-and-nerdtree
+  " function! OnlyAndNerdtree()
+    " let currentWindowID = win_getid()
+
+    " windo if win_getid() != currentWindowID && &filetype != 'nerdtree' | close | endif
+  " endfunction
+
+  " command! Only call OnlyAndNerdtree()
 
   """""" https://github.com/ferrine/md-img-paste.vim
   """""" https://github.com/lovepocky/md-img-paste.vim
