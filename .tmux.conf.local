@@ -275,7 +275,7 @@ tmux_conf_copy_to_os_clipboard=true
 
 # README
 # some useful tips
-# - prefix + h[h..] / l[l..]    -> switch window
+# - prefix + C-h[h..] / C-l[l..]    -> switch window
 # - opt/alt + left / right      -> switch window
 # - prefix + C-s                -> store sessions
 
