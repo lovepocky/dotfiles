@@ -292,17 +292,23 @@ bind-key -n "M-Right" next-window 		# alt-right  | Next Window
 # use prefix C to create new-session with name
 bind-key    -T prefix       C-c                 new-window -c "#{pane_current_path}"
 
-# vim cursor-shape
-set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
 
 # TODO
 # - [ ] bug: under tilde display as underline
 
 # true color
 # https://github.com/tmux/tmux/issues/1246
-set -g default-terminal "tmux-256color"
-set -ga terminal-overrides ",*256col*:Tc"
 
+## normal xterm
+# set -g default-terminal "tmux-256color"
+# set -ga terminal-overrides ",*256col*:Tc"
+
+## kitty xterm
+set -g default-terminal "xterm-kitty"
+set -ag terminal-overrides ",xterm-kitty:Tc"
+
+# vim cursor-shape
+set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
 
 # increase history size
 set -g history-limit 10000
@@ -334,9 +340,9 @@ set -g @tpm_plugins '            \
     tmux-plugins/tmux-sessionist \
     tmux-plugins/tmux-yank       \
     tmux-plugins/tmux-net-speed  \
-    tmux-plugins/tmux-resurrect  \
     tmux-plugins/tmux-continuum  \
 '
+
 
 set -g @continuum-restore 'on'
 
