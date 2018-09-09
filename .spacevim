@@ -15,7 +15,7 @@
 " - [x] use tab to COMPLETE popup
 " - [x] cross session file undo history
 " - [ ] fuzzy popup match
-" - [ ] buffer operations (like delete) in buffers switch (same as in intellij)
+" - [ ] [better buffers manage] buffer operations (like delete) in buffers switch (same as in intellij)
 " - [ ] app (vimr?) exit confirm
 " - [ ] vim session / workspaces
 "
@@ -466,7 +466,7 @@ function! UserConfig()
   vnoremap L $
 
   " https://vi.stackexchange.com/questions/4919/exit-from-terminal-mode-in-neovim
-  tnoremap <Esc> <C-\><C-n>
+  " tnoremap <Esc> <C-\><C-n>
 
   " https://vi.stackexchange.com/questions/13331/close-all-windows-except-the-current-one-and-nerdtree
   " function! OnlyAndNerdtree()

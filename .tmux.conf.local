@@ -273,6 +273,12 @@ tmux_conf_copy_to_os_clipboard=true
 # -- user customizations -------------------------------------------------------
 # this is the place to override or undo settings
 
+# README
+# some useful tips
+# - prefix + h[h..] / l[l..]    -> switch window
+# - opt/alt + left / right      -> switch window
+# - prefix + C-s                -> store sessions
+
 # https://stackoverflow.com/questions/38967247/tmux-how-do-i-bind-function-keys-to-commands
 
 # https://unix.stackexchange.com/questions/140007/what-are-valid-keys-for-tmux
@@ -282,6 +288,9 @@ tmux_conf_copy_to_os_clipboard=true
 # bind-key -n "F5" next-window 		# alt-right  | Next Window
 bind-key -n "M-Left" previous-window	# alt-left   | Previous Window
 bind-key -n "M-Right" next-window 		# alt-right  | Next Window
+
+# use prefix C to create new-session with name
+bind-key    -T prefix       C-c                 new-window -c "#{pane_current_path}"
 
 # vim cursor-shape
 set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
@@ -296,7 +305,7 @@ set -ga terminal-overrides ",*256col*:Tc"
 
 
 # increase history size
-#set -g history-limit 10000
+set -g history-limit 10000
 
 # start with mouse mode enabled
 #set -g mouse on
@@ -325,7 +334,11 @@ set -g @tpm_plugins '            \
     tmux-plugins/tmux-sessionist \
     tmux-plugins/tmux-yank       \
     tmux-plugins/tmux-net-speed  \
+    tmux-plugins/tmux-resurrect  \
+    tmux-plugins/tmux-continuum  \
 '
+
+set -g @continuum-restore 'on'
 
 # https://superuser.com/a/539657
 if-shell "uname | grep -q Darwin" "set-option -g default-command \"reattach-to-user-namespace -l $SHELL\""
