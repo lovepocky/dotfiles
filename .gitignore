@@ -17,6 +17,9 @@
 !/.config/kitty
 !/.config/kitty/*
 
+# ranger
+!/.config/ranger
+
 # term-multiplexer
 # from https://github.com/gpakosz/.tmux
 !/.tmux.conf.local

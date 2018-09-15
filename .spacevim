@@ -47,7 +47,7 @@ let g:spacevim_layers = [
 " https://github.com/liuchengxu/space-vim/blob/master/layers/LAYERS.md
 let g:spacevim_layers = g:spacevim_layers + ['editing', 'programming', 'file-manager']
 
-" let g:spacevim_layers = g:spacevim_layers + ['syntax-checking']
+let g:spacevim_layers = g:spacevim_layers + ['syntax-checking']
 
 " let g:spacevim_layers = g:spacevim_layers + ['auto-completion']
 
@@ -108,6 +108,9 @@ function! UserInit()
 
   Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
 
+  Plug 'janko-m/vim-test'
+
+
   " Plug 'vim-syntastic/syntastic'
 
   " https://github.com/teto/nvim-palette
@@ -163,6 +166,11 @@ function! UserInit()
   nnoremap <Leader>ll :call LanguageClient_contextMenu()<CR>
 
   nnoremap <localleader>h :call LanguageClient#textDocument_hover()<CR>
+
+
+  " https://github.com/autozimu/LanguageClient-neovim/issues/569
+  " Plugin should not override ALE settings unless requested #569
+  let g:LanguageClient_diagnosticsEnable=0
 
   " https://github.com/autozimu/LanguageClient-neovim/issues/35#issuecomment-324095421
   set signcolumn=yes
@@ -225,6 +233,10 @@ function! UserConfig()
   " autocmd BufReadPre,FileReadPre *.py,*.js :ALEEnable
   " autocmd BufReadPost,FileReadPost *.py,*.js :ALEEnable
   "
+  "
+
+  " ingnore caes using command
+  set smartcase
 
   set whichwrap-=h,l
   inoremap <C-j> <C-n>
@@ -237,14 +249,15 @@ function! UserConfig()
 
   let g:ale_fixers = {
   \   'javascript': ['eslint'],
-  \   'python': ['python -m pyls'],
+  \   'python': [
+  \     'add_blank_lines_for_python_control_statements',
+  \     'remove_trailing_lines',
+  \     'trim_whitespace',
+  \     'black',
+  \   ],
   \}
 
   let g:ale_linters = {
-  \   'python': ['pyls'],
-  \}
-
-  let b:ale_linters = {
   \   'python': ['pyls'],
   \}
 
@@ -255,11 +268,17 @@ function! UserConfig()
 
   let g:ale_set_highlights = 1
 
+  " If running in a terminal, "undercurl" acts as an alias for "underline".
+  " :help highlight cterm
   highlight ALEError guibg=none gui=undercurl  ctermbg=none cterm=undercurl
   highlight ALEWarning guibg=none gui=undercurl ctermbg=none cterm=undercurl
 
   " highlight ALEError guibg=none gui=underline  ctermbg=none cterm=underline
   " highlight ALEWarning guibg=none gui=underline ctermbg=none cterm=underline
+
+
+  autocmd FileType python set makeprg=python\ %
+
 
   function! s:ensure_input_en()
     let currentmode = mode()
@@ -348,7 +367,7 @@ function! UserConfig()
   "
   " use system clipboard
   " set clipboard+=unnamed
-  " set clipboard=
+  set clipboard=
 
   " d not cut
   " nnoremap d "_d
