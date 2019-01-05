@@ -12,7 +12,7 @@
 
     # install .tmux
     cd
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    git clone https://github.com/gpakosz/.tmux.git
     ln -s -f .tmux/.tmux.conf
 
     # install tmux-tpm
