@@ -1,0 +1,10 @@
+*DS_Store
+
+*.tmp
+
+.java-version
+.python-version
+.node-version
+
+*.local
+*.local.http

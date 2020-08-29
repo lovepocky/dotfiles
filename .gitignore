@@ -40,6 +40,7 @@
 # python
 !.pip
 !.pip/pip.conf
+!.pydistutils.cfg
 
 # scala
 #!/.sbt/1.0/
@@ -51,3 +52,6 @@
 !/.m2
 /.m2/*
 !/.m2/settings.xml
+
+!.gitignore_global
+!.gitconfig

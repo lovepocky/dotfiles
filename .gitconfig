@@ -1,0 +1,20 @@
+[core]
+	ignorecase = false
+	autocrlf = input
+	excludesfile = ~/.gitignore_global
+[alias]
+    cl = clone
+
+    ; add all files THEN list
+    a = !sh -c 'git add --all && git status' -
+    up = commit -m 'chore: update'
+
+	st = status
+	cm = commit
+	br = branch
+	co = checkout
+    name = "!git symbolic-ref --short HEAD"
+
+[push]
+    ; default = upstream
+	default = current
