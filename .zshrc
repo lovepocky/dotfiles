@@ -16,3 +16,10 @@ eval "$(pyenv init -)"
 alias pc='proxychains4'
 [ `uname` = "Darwin" ] && alias dc='docker-compose'
 alias re='source ~/.zshrc'
+
+pyenv_download () {
+    v=$1
+    echo downloading from https://npm.taobao.org/mirrors/python/$v/Python-$v.tar.xz
+    wget https://npm.taobao.org/mirrors/python/$v/Python-$v.tar.xz -P ~/.pyenv/cache/
+}
+
